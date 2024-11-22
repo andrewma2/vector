@@ -45,6 +45,7 @@ use crate::{
             metadata::RequestMetadataBuilder,
             request_builder::EncodeResult,
             BatchConfig, Compression, RequestBuilder, SinkBatchSettings, TowerRequestConfig,
+            vector_event::VectorEventLogSendMetadata,
         },
         Healthcheck,
     },
@@ -558,6 +559,10 @@ impl Service<ChronicleRequest> for ChronicleService {
                         Ok(GcsResponse {
                             inner: response,
                             metadata,
+                            // Event logs not supported for chronicle
+                            // But it uses the same GCS response struct as for cloud storage upload
+                            // Passing a dummy here
+                            event_log_metadata: VectorEventLogSendMetadata::new(),
                         })
                     } else {
                         Err(ChronicleResponseError::ServerError { code: status })

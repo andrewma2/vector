@@ -55,6 +55,16 @@ pub struct VectorEventLogSendMetadata {
 }
 
 impl VectorEventLogSendMetadata {
+    pub fn new() -> Self {
+        Self {
+            bytes: 0,
+            events_len: 0,
+            blob: "".to_string(),
+            container: "".to_string(),
+            count_map: HashMap::new(),
+        }
+    }
+
     pub fn emit_upload_event(&self) {
         // VECTOR_UPLOADED_MESSAGES_EVENT
         self.emit_count_map("Uploaded events.", 4)
